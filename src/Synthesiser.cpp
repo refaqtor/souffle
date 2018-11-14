@@ -246,7 +246,7 @@ void Synthesiser::emitCode(std::ostream& out, const RamStatement& stmt) {
                 out << ")->readAll(*" << synthesiser.getRelationName(load.getRelation());
                 out << ");\n";
                 out << "} catch (std::exception& e) {std::cerr << \"Error loading data: \" << e.what() << "
-                       "'\\n';}\n";
+                       "'\\n';exit(1);}\n";
             }
             out << "}\n";
             PRINT_END_COMMENT(out);
@@ -628,7 +628,7 @@ void Synthesiser::emitCode(std::ostream& out, const RamStatement& stmt) {
                     out << nullaryStopStmt;
                     visitSearch(scan, out);
                     out << "}\n";
-                    out << "} catch(std::exception &e) { SignalHandler::instance()->error(e.what());}\n";
+                    out << "} catch(std::exception &e) { SignalHandler::instance()->error(e.what());exit(1);}\n";
                     if (nullaryCond.length() > 0) {
                         out << "}\n";
                     }
@@ -677,7 +677,7 @@ void Synthesiser::emitCode(std::ostream& out, const RamStatement& stmt) {
                 out << nullaryStopStmt;
                 visitSearch(scan, out);
                 out << "}\n";
-                out << "} catch(std::exception &e) { SignalHandler::instance()->error(e.what());}\n";
+                out << "} catch(std::exception &e) { SignalHandler::instance()->error(e.what());exit(1);}\n";
                 if (nullaryCond.length() > 0) {
                     out << "}\n";
                 }
@@ -1921,7 +1921,7 @@ void Synthesiser::generateCode(
             os << ")->readAll(*" << getRelationName(load.getRelation());
             os << ");\n";
             os << "} catch (std::exception& e) {std::cerr << \"Error loading data: \" << e.what() << "
-                  "'\\n';}\n";
+                  "'\\n';exit(1);}\n";
         }
     });
     os << "}\n";  // end of loadAll() method
@@ -2090,7 +2090,7 @@ void Synthesiser::generateCode(
         os << "explain(obj, true, true);\n";
     }
     os << "return 0;\n";
-    os << "} catch(std::exception &e) { souffle::SignalHandler::instance()->error(e.what());}\n";
+    os << "} catch(std::exception &e) { souffle::SignalHandler::instance()->error(e.what());exit(1);}\n";
     os << "}\n";
     os << "\n#endif\n";
 }
